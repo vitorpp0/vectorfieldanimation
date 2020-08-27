@@ -6,9 +6,10 @@ This class makes use of some Python's modules [Numpy](https://numpy.org/) and [M
 
 ## Quick With Predefined Vector Field
 This run the predefined vector field. \
-""""
-    import os
-    os.chdir(r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
+```python
+    import sys
+    path = r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
+    sys.path.insert(1,path)
 
     # Importing the VectorFieldAnimation.py
     import VectorFieldAnimation as vfa
@@ -18,13 +19,14 @@ This run the predefined vector field. \
 
     # Running the simulation and animation
     vfaObject.animate()
-""""
+```
 
 ## Quick Set Up
 Now let's set our Vector Field. \
-""""
-    import os
-    os.chdir(r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
+```python
+    import sys
+    path = r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
+    sys.path.insert(1,path)
 
     # Importing the VectorFieldAnimation.py
     import VectorFieldAnimation as vfa
@@ -51,7 +53,8 @@ Now let's set our Vector Field. \
 
     # Running the simulation and animation
     vfaObject.animate()
-""""
+```
 
 ## End
 Hope you like it! :grin:
+Please, consider hiting the star button!!!

@@ -42,10 +42,11 @@ class vectorFieldAnimation():
         self.ax.set_zlabel(r'Z axis($\hat{\bf{k}}$)')
         u, v, w, c = self.frameParameters[0]
         self.vectorField = self.ax.quiver(self.x,self.y,self.z,u,v,w,colors=c,length=self.length, normalize=True)
+        self.fig.colorbar(self.vectorField)
     
     def _determineFrameParameters(self):
         frameParameters = []
-        for frame in np.arange(start=0,stop=self.animationDuration*self.frameRate, step=1):
+        for frame in np.arange(start=0.002,stop=self.animationDuration*self.frameRate, step=1):
             time = frame/self.frameRate
             u = self.U(time, self.x, self.y, self.z),
             v = self.V(time, self.x, self.y, self.z)
@@ -62,7 +63,7 @@ class vectorFieldAnimation():
         return plt.cm.jet(colorMap)
 
     def _update(self, frame):
-        u,v,w,c = self.frameParameters[frame]
+        u,v,w,c = self.frameParameters[int(frame)]
         self.vectorField.remove()
         self.ax.set_title("Timer:{:0.2f} s".format(frame/self.frameRate))
         self.vectorField = self.ax.quiver(self.x,self.y,self.z,u,v,w,colors=c,length=self.length, normalize=True)
@@ -70,6 +71,6 @@ class vectorFieldAnimation():
 
     def animate(self):
         self.animation = ani.FuncAnimation(self.fig, self._update, blit=False,
-                                      frames=np.arange(start=1,stop=self.animationDuration*self.frameRate, step=1))
+                                    frames=np.arange(start=1,stop=self.animationDuration*self.frameRate, step=1))
         plt.show()
 
