@@ -5,7 +5,7 @@ Simple class that makes it easy to simulate a Vector Field through an matplotlib
 This class makes use of some Python's modules [Numpy](https://numpy.org/) and [MatPlotLib](https://matplotlib.org/).
 
 ## Quick With Predefined Vector Field
-This run the predefined vector field. \
+This run the predefined vector field.
 ```python
     import sys
     path = r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
@@ -22,7 +22,7 @@ This run the predefined vector field. \
 ```
 
 ## Quick Set Up
-Now let's set our Vector Field. \
+Now let's set our Vector Field.
 ```python
     import sys
     path = r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
