@@ -8,14 +8,14 @@ This class makes use of some Python's modules [Numpy](https://numpy.org/) and [M
 This run the predefined vector field.
 ```python
     import sys
-    path = r"Directory/Path/Where/The/VectorFieldAnimation.py/Is"
+    path = r"Directory/Path/Where/The/vectorfieldanimation.py/Is"
     sys.path.insert(1,path)
 
     # Importing the VectorFieldAnimation.py
-    import VectorFieldAnimation as vfa
+    import vectorfieldanimation as vfa
 
     # Instancianting Our VectorFieldAnimation Object
-    vfaObject = vfa.vectorFieldAnimation()
+    vfaObject = vfa.VectorFieldAnimation()
 
     # Running the simulation and animation
     vfaObject.animate()
@@ -29,7 +29,7 @@ Now let's set our Vector Field.
     sys.path.insert(1,path)
 
     # Importing the VectorFieldAnimation.py
-    import VectorFieldAnimation as vfa
+    import vectorfieldanimation as vfa
 
     # Setting Up Our Vector Field
     import numpy as np # Because we always need it
@@ -48,7 +48,7 @@ Now let's set our Vector Field.
     componentsFunctions = [x_component, y_component, z_component]
 
     # Instancianting Our VectorFieldAnimation Object
-    vfaObject = vfa.vectorFieldAnimation(space=spaceMesh, vectorComponents=componentsFunctions, length=0.3, animationDuration=2)
+    vfaObject = vfa.VectorFieldAnimation(space=spaceMesh, vectorComponents=componentsFunctions, length=0.3, animationDuration=2)
     # animationDuration must be in seconds and length is the vectors lengths
 
     # Running the simulation and animation

@@ -1,9 +1,10 @@
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import matplotlib.animation as ani
+import math
 import numpy as np
 
-class vectorFieldAnimation():
+class VectorFieldAnimation():
 
     def __init__(self, space=[np.arange(-2, 2, 0.5), np.arange(-2, 2, 0.5), np.arange(-2, 2, 0.5)],
                      vectorComponents=["4*time*x", "-2*(time**2)*y", "4*np.multiply(x,z)"], animationDuration= 3, frameRate= 30,
@@ -18,6 +19,7 @@ class vectorFieldAnimation():
         self.frameRate, self.animationDuration = frameRate, animationDuration
 
         # Sets the parameters frames
+        self.gradient = self._setGradient()
         self.frameParameters = self._determineFrameParameters()
 
         # Sets the figures instances
@@ -25,7 +27,7 @@ class vectorFieldAnimation():
         self._set_figure(title)
 
         # Animation variable
-        self.animation = 0
+        self.animation = 'No animation has been instantiated yet.'
 
     def _set_space(self, space, vectorComponents):
         self.x, self.y, self.z = np.meshgrid(space[0], space[1], space[2])
@@ -55,12 +57,46 @@ class vectorFieldAnimation():
             frameParameters.append([u,v,w,colorMap])
         return frameParameters
 
+    def _setGradient(self):
+        rgbGradient = [
+            [125,71,144,1],[121,71,152,1],[114,71,153,1],[105,73,152,1],[104,73,151,1],[97,72,153,1],
+            [92,76,151,1],[88,76,150,1],[79,75,151,1],[75,75,151,1],[69,77,151,1],[58,77,153,1],[51,79,151,1],
+            [46,80,154,1],[46,80,152,1],[45,81,155,1],[46,80,151,1],[47,79,153,1],[43,84,150,1],[36,89,157,1],
+            [15,99,164, 1],[15,100,164,1],[8,107,166,1],[12,113,165,1],[14,117,176,1],
+            [12,126,180,1],[12,130,183,1],[14,136,183,1],[12,146,190,1],
+            [12,164,190,1],[12,176,190,1],[12,190,182,1],[12,190,154,1],
+            [12,190,137,1],[13,189,114,1],[14,188,88,1],[13,189,52,1],[13,189,26,1],
+            [20,190,12,1],[48,189,13,1],[69,191,11,1],[83,190,12,1],[105,192,10,1],
+            [138,193,9,1],[156,193,9,1],[168,190,12,1],[186,201,1,1],[194,200,2,1],
+            [200,185,2,1],[200,170,2,1],[200,155,2,1],[201,171,1,1],[201,151,1,1],
+            [201,131,1,1],[200,121,2,1],[201,86,1,1],[200,62,2,1],[201,46,1,1],[200,41,2,1],
+            [198,33,4,1],[198,23,4,1],[198,14,4,1],[200,10,4,1], [220, 0, 0, 1], [230, 0, 0, 1],
+            [240, 0, 0, 1],[245, 0, 0, 1],[250, 0, 0, 1], [255, 0, 0, 1]
+            ]
+        gradient = np.zeros((1,4))
+        gradient = np.append(gradient, rgbGradient, axis=0)
+        gradient = np.delete(gradient, 0, 0)
+        gradient = gradient/255
+        gradient[:,3] = 1
+        return gradient
+        
+    def _setColor(self, value):
+        colors = self.gradient.shape[0]-1
+        color = math.floor(value*colors)
+        if color > colors:
+            print('Error, color bigger than 1')
+        else:
+            return self.gradient[color]
+    
     def _colorByNorm(self, u, v, w):
         lengthArray = np.sqrt(np.power(u,2) + np.power(v,2) + np.power(w,2)).ravel()
         notZeroLengthArray = lengthArray[np.abs(lengthArray)>0]
-        colorMap = (notZeroLengthArray-notZeroLengthArray.min())/notZeroLengthArray.ptp()
-        colorMap = np.concatenate((colorMap, np.repeat(colorMap, 2)))
-        return plt.cm.jet(colorMap)
+        values = (notZeroLengthArray-notZeroLengthArray.min())/notZeroLengthArray.ptp()
+        values = np.concatenate((values, np.repeat(values, 2)))
+        colorMap = np.zeros((values.shape[0],4))
+        for element in range(0, values.shape[0]):
+            colorMap[element] = self._setColor(values[element])
+        return colorMap
 
     def _update(self, frame):
         u,v,w,c = self.frameParameters[int(frame)]
@@ -73,4 +109,3 @@ class vectorFieldAnimation():
         self.animation = ani.FuncAnimation(self.fig, self._update, blit=False,
                                     frames=np.arange(start=1,stop=self.animationDuration*self.frameRate, step=1))
         plt.show()
-
